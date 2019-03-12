@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+  
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="author" content="Pengllrn">
+  
+  
+  <title>Hexo(二)：部署到Coding+Miho主题 | 小彭的个人博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="教程,hexo,coding,">
+  
+
+  
+  <meta name="description" content="小彭的个人小站">
+
+  
+
+  <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+    <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":true,"count":true},
+    welcome: {"enable":true,"interval":30},
+    start_time: "2018-08-10",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Pengllrn",
+    share: {"twitter":false,"facebook":false,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">PENGLLRN</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 安静写些东西</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/pengllrn/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2018-07-23
+    </span>
+    
+      <span>
+        | <a href="/categories/教程/"><i class="fa fa-bookmark"></i>教程</a>
+      </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    Hexo(二)：部署到Coding+Miho主题
+  </h1>
+  
+  <article class="passage-article">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>在前面一篇中，已经把hexo博客搭建到了github上，但是毕竟github是国外的，访问速度上还是有点慢，所以本篇将介绍如何把hexo搭建到<code>coding</code>上。除此之外，还会介绍如何更换hexo的默认主题，毕竟原来的主题以及功能实在少了点。本篇将直接从coding的设置说起，如有不懂，请先参看<a href="https://www.pengllrn.xyz/2018/07/19/deployhexotogithub/" target="_blank" rel="noopener">Hexo(一)：Hexo博客搭建并部署到Github上。</a>  </p>
+</blockquote>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="1-Coding"><a href="#1-Coding" class="headerlink" title="1.Coding"></a>1.Coding</h3><h4 id="1-1注册Coding账号"><a href="#1-1注册Coding账号" class="headerlink" title="1.1注册Coding账号"></a>1.1注册Coding账号</h4><p>Coding是一个类似于github一样的代码托管平台，其服务器是在中国，因此访问速度更加快以及稳定。那么如果还没有coding账号的话，需要先到<a href="https://coding.net/git" target="_blank" rel="noopener">Coding官网</a>注册一个。  </p>
+<h4 id="1-2创建一个项目"><a href="#1-2创建一个项目" class="headerlink" title="1.2创建一个项目"></a>1.2创建一个项目</h4><p>点击网页右上角的<code>+</code>号，选择项目，进入到如下界面：<br><img src="/images/hexotocoding/create.jpg" alt="创建项目"><br>项目名称需要是你的<code>用户名</code>，否则的话无法正常访问，填写完后点<code>创建项目</code>就可以了。</p>
+<h4 id="1-3获取仓库的https"><a href="#1-3获取仓库的https" class="headerlink" title="1.3获取仓库的https"></a>1.3获取仓库的https</h4><p>点击右上角的第二个图标，选择刚刚创建的那个项目<br><img src="/images/hexotocoding/https.jpg" alt="https"><br>然后点击左边的<strong>代码</strong>–&gt;<code>代码浏览</code>，出现了一个界面，在它的右上角可以看到:<br><img src="/images/hexotocoding/url.jpg" alt="https"><br>点击最右边的图标<code>复制</code>，然后打开hexo博客根目录的<code>_config.yml</code>文件，在<code>deploy</code>处添加coding的<strong>repo</strong>：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo:</span><br><span class="line">       coding: https://git.coding.net/pengllrn/pengllrn.git,</span><br><span class="line">       github: https://github.com/pengllrn/pengllrn.github.io.git,</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-4在coding上添加SSH证书"><a href="#1-4在coding上添加SSH证书" class="headerlink" title="1.4在coding上添加SSH证书"></a>1.4在coding上添加SSH证书</h4><p>为了避免每次提交输入密码，我们同样也需要再coding上添加<code>SSH</code>证书。鼠标移到右上角，点击个人设置–&gt;SSH公钥–&gt;新增公钥，然后把自己的公钥证书复制进去，公钥的有效期可以选择永久。<br><img src="/images/hexotocoding/ssh.jpg" alt="添加ssh证书"><br>添加完后可以在本地测试以下，输入命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@git.coding.net</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-5开始部署"><a href="#1-5开始部署" class="headerlink" title="1.5开始部署"></a>1.5开始部署</h4><p>依次执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure></p>
+<p>如果没有报错的话，则会自动把hexo博客同时部署到github和coding上。如果出现了问题，请检测<code>_config.yml</code>文件的deploy中，两个repo是否对齐，然后调整空格（下一行应该对其repo：并且还有在加一个<code>空格</code>）。这时打开刚才coding上的项目，可以看到代码里面以及有了内容：<br><img src="/images/hexotocoding/repo.jpg" alt="更新的仓库">  </p>
+<h4 id="1-6打开pages服务"><a href="#1-6打开pages服务" class="headerlink" title="1.6打开pages服务"></a>1.6打开pages服务</h4><p>点击<strong>代码</strong>–&gt;Pages服务，出现如下界面：<br><img src="/images/hexotocoding/pages.jpg" alt="pages"><br>里面需要完成两个设置：  </p>
+<blockquote>
+<p>1.选择部署来源：master分支。<br>2.打开：强制Https访问。  </p>
+</blockquote>
+<p>如果自己有域名的话，可以自定义域名，<a href="https://coding.net/help/doc/pages/domain.html" target="_blank" rel="noopener">自定义教程</a><br>不过需要注意一点是，如果你只是<strong>银牌会员</strong>的话，需要在你网页的首页添加<code>Hosted by Coding Pages</code>代码，否则输入你的网址之后将会先出现<strong>Coding Pages跳转页</strong>。<br>完成之后，在coding上的部署就算完成了，此时打开浏览器，输入网址：https://你的用户名.coding.me 就能访问了，比如我的：<a href="https://pengllrn.coding.me" target="_blank" rel="noopener">https://pengllrn.coding.me</a>。  </p>
+<h3 id="2-Miho主题"><a href="#2-Miho主题" class="headerlink" title="2.Miho主题"></a>2.Miho主题</h3><p>Hexo的默认主题是landscape，如果不喜欢的话可以进行更换，hexo上有大量的漂亮主题供我们选择。本节将以<a href="https://blog.minhow.com/2017/08/01/blog/installation-configuration/" target="_blank" rel="noopener">Moho主题</a>为例，讲解如何更换主题，更多的hexo主题请访问：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">Hexo|主题</a>。  </p>
+<h4 id="2-1主题下载及更新"><a href="#2-1主题下载及更新" class="headerlink" title="2.1主题下载及更新"></a>2.1主题下载及更新</h4><p>在hexo博客根目录中，打开Git Bash，输入下面的命令进行下载：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/WongMinHo/hexo-theme-miho.git themes/miho</span><br></pre></td></tr></table></figure></p>
+<p>然后进行主题更新：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> themes/moho </span><br><span class="line">git pull</span><br></pre></td></tr></table></figure></p>
+<p>可能会提示你没有更新可用。  </p>
+<h4 id="2-2启用主题"><a href="#2-2启用主题" class="headerlink" title="2.2启用主题"></a>2.2启用主题</h4><p>编辑根目录下的<code>_config.yml</code>文件，找到<code>theme</code>，更改为miho，然后保存：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: miho</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-3为搜素工具添加依赖"><a href="#2-3为搜素工具添加依赖" class="headerlink" title="2.3为搜素工具添加依赖"></a>2.3为搜素工具添加依赖</h4><p>hexo默认是没有安装搜索功能的，miho主题有搜素功能，因此需要安装依赖<code>Json-content</code>，输入命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-json-content --save</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-4配置主题"><a href="#2-4配置主题" class="headerlink" title="2.4配置主题"></a>2.4配置主题</h4><p>编辑miho主题的配置文件<code>themes/miho/_config.yml</code>，因为有详细的注释，所以在此不多说。  </p>
+<h4 id="2-5文章基本信息"><a href="#2-5文章基本信息" class="headerlink" title="2.5文章基本信息"></a>2.5文章基本信息</h4><p>写一篇文章时，可以为文章指定标题、发表日期、分类、标签、作者、封面等信息：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Hello World</span><br><span class="line">date: 2017-06-18</span><br><span class="line">categories: First</span><br><span class="line">author: MinHow</span><br><span class="line">tags:</span><br><span class="line">- First</span><br><span class="line">- Second</span><br><span class="line">cover_picture: /images/banner.jpg</span><br><span class="line">---</span><br><span class="line">MinHow-This is a summary</span><br><span class="line">&lt;!-- more --&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-6创建新页面——关于我"><a href="#2-6创建新页面——关于我" class="headerlink" title="2.6创建新页面——关于我"></a>2.6创建新页面——关于我</h4><p>新建一个about页面：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page about</span><br></pre></td></tr></table></figure></p>
+<p>然后编辑<code>source/about/index.md</code>文件即可，可以参考原主题作者写的<a href="https://github.com/WongMinHo/hexo-theme-miho/blob/master/_source/about/index.md" target="_blank" rel="noopener">about</a>页面。  </p>
+<h4 id="2-7置顶功能"><a href="#2-7置顶功能" class="headerlink" title="2.7置顶功能"></a>2.7置顶功能</h4><p>修改 Hexo 文件夹下的 <code>node_modules/hexo-generator-index/lib/generator.js</code>文件,找到该文件后，添加以下代码:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">posts.data = posts.data.sort(<span class="function"><span class="keyword">function</span>(<span class="params">first, second</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (first.top &amp;&amp; second.top) &#123; <span class="comment">// 两篇文章top都有定义</span></span><br><span class="line">            <span class="keyword">return</span> first.top == second.top ? second.date - first.date : second.top - first.top <span class="comment">//若top值一样则按照文章日期降序排, 否则按照top值降序排</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (first.top &amp;&amp; !second.top) &#123; <span class="comment">// 以下是只有一篇文章top有定义，将有top的排在前面</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!first.top &amp;&amp; second.top) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> second.date - first.date;  <span class="comment">// 都没定义top，按照文章日期降序排</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>更改后的完整代码如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">var</span> pagination = <span class="built_in">require</span>(<span class="string">'hexo-pagination'</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">locals</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> config = <span class="keyword">this</span>.config;</span><br><span class="line">  <span class="keyword">var</span> posts = locals.posts.sort(config.index_generator.order_by);</span><br><span class="line">    posts.data = posts.data.sort(<span class="function"><span class="keyword">function</span>(<span class="params">first, second</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (first.top &amp;&amp; second.top) &#123; <span class="comment">// 两篇文章top都有定义</span></span><br><span class="line">            <span class="keyword">return</span> first.top == second.top ? second.date - first.date : second.top - first.top <span class="comment">//若top值一样则按照文章日期降序排, 否则按照top值降序排</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (first.top &amp;&amp; !second.top) &#123; <span class="comment">// 以下是只有一篇文章top有定义，将有top的排在前面</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!first.top &amp;&amp; second.top) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> second.date - first.date;  <span class="comment">// 都没定义top，按照文章日期降序排</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="keyword">var</span> paginationDir = config.pagination_dir || <span class="string">'page'</span>;</span><br><span class="line">  <span class="keyword">var</span> path = config.index_generator.path || <span class="string">''</span>;</span><br><span class="line">  <span class="keyword">return</span> pagination(path, posts, &#123;</span><br><span class="line">    perPage: config.index_generator.per_page,</span><br><span class="line">    layout: [<span class="string">'index'</span>, <span class="string">'archive'</span>],</span><br><span class="line">    format: paginationDir + <span class="string">'/%d/'</span>,</span><br><span class="line">    data: &#123;</span><br><span class="line">      __index: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>然后在需要置顶的文章的<code>front-matter</code>中添加<code>top</code>值，top值越大，文章越靠前，举例如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Hexo博客搭建并部署到Github上</span><br><span class="line">date: 2018-07-19 19:19:10</span><br><span class="line">category: 教程</span><br><span class="line">top: 1</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-8评论功能"><a href="#2-8评论功能" class="headerlink" title="2.8评论功能"></a>2.8评论功能</h4><p>miho主题支持畅言、友言、disqus，先去相应的网址注册，获取到id，然后在配置页写上即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 畅言，输入appid和appkey</span></span><br><span class="line">changyan_appid: cytJf7esA</span><br><span class="line">changyan_appkey: 446de53fffcfc26b68481c71564bf5c8</span><br><span class="line"><span class="comment"># 友言，输入id</span></span><br><span class="line">youyan_id: <span class="literal">false</span></span><br><span class="line"><span class="comment"># disqus</span></span><br><span class="line">disqus: <span class="literal">false</span></span><br><span class="line"><span class="comment"># gitment  https://github.com/imsun/gitment</span></span><br><span class="line">gitment:</span><br><span class="line">  owner: <span class="literal">false</span>   <span class="comment">#你的 GitHub ID</span></span><br><span class="line">  repo: <span class="string">''</span>   <span class="comment">#存储评论的 repo</span></span><br><span class="line">  client_id: <span class="string">''</span> <span class="comment">#client ID</span></span><br><span class="line">  client_secret: <span class="string">''</span>  <span class="comment">#client secret</span></span><br></pre></td></tr></table></figure></p>
+<p>如果是其他主题，则需要在<code>node_modules</code>找到相应的<code>footer.html</code>，加上相应的代码。  </p>
+<h3 id="本文参考："><a href="#本文参考：" class="headerlink" title="本文参考："></a>本文参考：</h3><blockquote>
+<ul>
+<li><a href="https://blog.minhow.com/2017/08/01/blog/installation-configuration/" target="_blank" rel="noopener">MiHo-主题安装和配置详情</a></li>
+<li><a href="https://blog.minhow.com/2017/08/20/hexo/article-top/" target="_blank" rel="noopener">Hexo文章置顶的方法</a></li>
+<li><a href="http://tengj.top/2016/03/06/hexo4/" target="_blank" rel="noopener">将hexo博客同时托管到github和coding</a></li>
+</ul>
+</blockquote>
+
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Coding"><span class="toc-text">1.Coding</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1注册Coding账号"><span class="toc-text">1.1注册Coding账号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2创建一个项目"><span class="toc-text">1.2创建一个项目</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3获取仓库的https"><span class="toc-text">1.3获取仓库的https</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4在coding上添加SSH证书"><span class="toc-text">1.4在coding上添加SSH证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5开始部署"><span class="toc-text">1.5开始部署</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6打开pages服务"><span class="toc-text">1.6打开pages服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Miho主题"><span class="toc-text">2.Miho主题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1主题下载及更新"><span class="toc-text">2.1主题下载及更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2启用主题"><span class="toc-text">2.2启用主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3为搜素工具添加依赖"><span class="toc-text">2.3为搜素工具添加依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4配置主题"><span class="toc-text">2.4配置主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5文章基本信息"><span class="toc-text">2.5文章基本信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6创建新页面——关于我"><span class="toc-text">2.6创建新页面——关于我</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-7置顶功能"><span class="toc-text">2.7置顶功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-8评论功能"><span class="toc-text">2.8评论功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本文参考："><span class="toc-text">本文参考：</span></a></li></ol></li></ol>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: Pengllrn</div>
+      
+        <div>
+          原文链接: 
+          <a href target="_blank">http://yoursite.com/passages/hexotocoding/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/hexo/"><i class="fa fa-tags"></i>hexo</a>
+     
+      <a href="/tags/coding/"><i class="fa fa-tags"></i>coding</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+      <div class="site-comment-contanier">
+  <p id="site-comment-info">
+    <i class="fa fa-spinner fa-spin"></i> 评论加载中
+  </p>
+  <div id="site-comment">
+  </div>
+</div>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">博客推荐</h5>
+        
+          <span class="site-footer-item">
+            <a href="https://godbmw.com/" target="_blank">GodBMW</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="http://ruanyifeng.com/" target="_blank">阮一峰的个人网站</a>
+          </span>
+        
+      </div>
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">系列教程</h5>
+        
+          <span class="site-footer-item">
+            <a href="https://godbmw.com/categories/webpack4%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B/" target="_blank">webpack4系列教程</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="https://godbmw.com/design-patterns/" target="_blank">设计模式手册</a>
+          </span>
+        
+      </div>
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">抓到我</h5>
+        
+          <span class="site-footer-item">
+            <a href="https://juejin.im/user/5b91fcf06fb9a05d3c7fd4a5" target="_blank">掘金</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="https://segmentfault.com/" target="_blank">思否</a>
+          </span>
+        
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+      <div class="site-footer-info">
+        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
+      </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> Email: yuanxin.me@gmail.com
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+        
+          <div>
+            <img src="/images/wechat.png" alt="WeChat">
+            
+              <p>WeChat</p>
+            
+          </div>
+        
+          <div>
+            <img src="/images/alipay.png" alt="AliPay">
+            
+              <p>AliPay</p>
+            
+          </div>
+        
+      </div>
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/passages/ScanQR/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/passages/deployhexotogithub/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+      <a href="#site-comment" data-enable="true">
+        <i class="fa fa-commenting"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    <a href="javascript:void(0);" id="site-reward">
+      <i class="fa fa-thumbs-up"></i>
+    </a>
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>
