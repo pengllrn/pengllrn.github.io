@@ -6,16 +6,16 @@
   <meta name="author" content="Pengllrn">
   
   
-  <title>归档 | 小彭的个人博客</title>
+  <title>快速搭建一个属于自己的博客 | 小彭的个人博客</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="Hexo, Kiisa, pengllrn, Pengllrn, PENGLLRN">
+    <meta name="keywords" content="教程系列,Hexo,博客,">
   
 
   
-  <meta name="description" content="小彭的个人小站">
+  <meta name="description" content="这是一篇基础教程，主要介绍如何使用Hexo这个高效、简介且高效的博客框架如何搭建使用。">
 
   
 
@@ -38,7 +38,7 @@
     welcome: {"enable":true,"interval":30},
     start_time: "2019-01-1",
     passwords: ["d42025bc1f16d54fc22850383c76bcd51aad709747fe86c0cf4e7e60e9f02639", ],
-    is_post: false,
+    is_post: true,
     lock: false,
     author: "Pengllrn",
     share: {"twitter":false,"facebook":false,"weibo":true,"qq":true,"wechat":true},
@@ -156,57 +156,67 @@
 </nav>
 <div id="site-process"></div>
     <main>
-      <div class="timeline">
-  <h2 class="timeline-title">归档: 7篇</h2>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-03-12
+    </span>
+    
+      <span>
+        | <a href="/categories/教程系列/"><i class="fa fa-bookmark"></i>教程系列</a>
+      </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    快速搭建一个属于自己的博客
+  </h1>
   
-    
-      <h3 class="timeline-subtitle">2019</h3>
-    
-    <div class="timeline-item">
-      <time>2019-03-12</time>
-      <a target="_self" href="/passages/2019-03-12-jc-quickly-start-a-blog/">快速搭建一个属于自己的博客</a>
-    </div>
+  <article class="passage-article">
+    <h2 id="阅读须知"><a href="#阅读须知" class="headerlink" title="阅读须知"></a>阅读须知</h2><p>本文属于基础教程系列，教程系列的特点请参看：<a href>教程须知</a></p>
+<h3 id="阅读基础"><a href="#阅读基础" class="headerlink" title="阅读基础"></a>阅读基础</h3><p>本文适合有一定编程基础的人，在这之前如果有了解过git、github以及markdown方面的知识就更好了，不过不了解也没关系，因为只有刚开始搭建的时候需要用到。在后续写博文的时候，只需学习以下markdown的语法即可。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>由于本文设计到的基础比较多，遇到您熟悉的内容尽管跳过。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h2 id="Hexo是什么"><a href="#Hexo是什么" class="headerlink" title="Hexo是什么"></a>Hexo是什么</h2><p><a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">Hexo</a> 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+<p>Hexo常用命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo init <span class="comment">#初始化一个博客项目</span></span><br><span class="line">hexo g <span class="comment">#生成网页静态文件，在写完一篇文章或者修改了配置文件时候需要使用</span></span><br><span class="line">hexo s <span class="comment">#启动本地服务器，速览效果</span></span><br><span class="line">hexo d <span class="comment">#部署</span></span><br></pre></td></tr></table></figure>
+<h3 id="软件环境搭建"><a href="#软件环境搭建" class="headerlink" title="软件环境搭建"></a>软件环境搭建</h3><h4 id="（1）Git"><a href="#（1）Git" class="headerlink" title="（1）Git"></a>（1）Git</h4><p>博客文章部署的时候需要通过git的方式进行静态代码文件的托管。<br>git是什么（了解）？<a href="http://blog.jobbole.com/78960/" target="_blank" rel="noopener">手把手教你使用Git</a><br>git下载： <a href="https://git-for-windows.github.io/" target="_blank" rel="noopener">下载地址</a><br>git安装：双击exe文件，一直next即可</p>
+<h4 id="（2）Node-js"><a href="#（2）Node-js" class="headerlink" title="（2）Node.js"></a>（2）Node.js</h4>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#阅读须知"><span class="toc-text">阅读须知</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#阅读基础"><span class="toc-text">阅读基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意事项"><span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-text">正文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo是什么"><span class="toc-text">Hexo是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软件环境搭建"><span class="toc-text">软件环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#（1）Git"><span class="toc-text">（1）Git</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（2）Node-js"><span class="toc-text">（2）Node.js</span></a></li></ol></li></ol></li></ol>
+  </div>
+</aside>
   
-    
-    <div class="timeline-item">
-      <time>2019-03-12</time>
-      <a target="_self" href="/passages/2019-03-12-jcxz/">教程系列须知</a>
-    </div>
   
+    <div class="passage-tags">
+     
+      <a href="/tags/Hexo/"><i class="fa fa-tags"></i>Hexo</a>
+     
+      <a href="/tags/博客/"><i class="fa fa-tags"></i>博客</a>
     
-    <div class="timeline-item">
-      <time>2019-03-12</time>
-      <a target="_self" href="/passages/2019-03-12-introduce/">致访者</a>
-    </div>
-  
-    
-    <div class="timeline-item">
-      <time>2019-03-11</time>
-      <a target="_self" href="/passages/2019-03-11-hello-world/">Hello World</a>
-    </div>
-  
-    
-      <h3 class="timeline-subtitle">2018</h3>
-    
-    <div class="timeline-item">
-      <time>2018-10-14</time>
-      <a target="_self" href="/passages/2018-10-14-ScanQR/">扫码登录</a>
-    </div>
-  
-    
-    <div class="timeline-item">
-      <time>2018-07-23</time>
-      <a target="_self" href="/passages/2018-07-23-hexotocoding/">Hexo(二)：部署到Coding+Miho主题</a>
-    </div>
-  
-    
-    <div class="timeline-item">
-      <time>2018-07-19</time>
-      <a target="_self" href="/passages/2018-07-19-deployhexotogithub/">Hexo(一)：博客搭建并部署到Github上</a>
     </div>
   
 </div>
+
     </main>
+    
+      <div class="site-comment-contanier">
+  <p id="site-comment-info">
+    <i class="fa fa-spinner fa-spin"></i> 评论加载中
+  </p>
+  <div id="site-comment">
+  </div>
+</div>
     
     <div class="site-footer-wrapper">
   <footer class="site-footer">
@@ -310,16 +320,16 @@
     <a href="javascript:void(0);" data-enable="false">
       <i class="fa fa-arrow-left"></i>
     </a>
-    <a href="javascript:void(0);" data-enable="false">
+    <a href="/passages/2019-03-12-jcxz/" data-enable="true">
       <i class="fa fa-arrow-right"></i>
     </a>
   </div>
   <div class="bottom-bar-right">
-    <a href="javascript:void(0);" data-enable="false" id="site-toc-show-btn">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
       <i class="fa fa-bars"></i>
     </a>
     
-      <a href="javascript:void(0);" data-enable="false">
+      <a href="#site-comment" data-enable="true">
         <i class="fa fa-commenting"></i>
       </a>
     
