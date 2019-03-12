@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+  
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="author" content="Pengllrn">
+  
+  
+  <title>Hexo(一)：博客搭建并部署到Github上 | 小彭的个人博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="教程,hexo,github,">
+  
+
+  
+  <meta name="description" content="Hexo是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。Hexo的实用非常简单，上手非常之快，并且用hexo搭建博客不必申请域名以及购买独立服务器，非常适合喜欢写文章但又嫌麻烦的人。">
+
+  
+
+  <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+    <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"72QzKzRXQJS5pyVmQxjqVRDl-gzGzoHsz","appkey":"3R3u0daQ2Ia9xPKk3W7T3EPt","comment":true,"count":true},
+    welcome: {"enable":true,"interval":30},
+    start_time: "2019-01-1",
+    passwords: ["d42025bc1f16d54fc22850383c76bcd51aad709747fe86c0cf4e7e60e9f02639", ],
+    is_post: true,
+    lock: false,
+    author: "Pengllrn",
+    share: {"twitter":false,"facebook":false,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">PENGLLRN</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 有人低头看路，有人仰望星空</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/pengllrn/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2018-07-19
+    </span>
+    
+      <span>
+        | <a href="/categories/教程/"><i class="fa fa-bookmark"></i>教程</a>
+      </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    Hexo(一)：博客搭建并部署到Github上
+  </h1>
+  
+  <article class="passage-article">
+    <p></p>
+<p>本篇将从头开始介绍如何用Hexo搭建博客，所使用到的环境是windows。正文内容目录如下：  </p>
+<p>1.软件环境的安装<br>2.GitHub<br>3.配置并部署项目<br>4.发表一篇文章<br>5.总结  </p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="1-软件环境"><a href="#1-软件环境" class="headerlink" title="1.软件环境"></a>1.软件环境</h3><h4 id="1-1-安装Git客户端"><a href="#1-1-安装Git客户端" class="headerlink" title="1.1 安装Git客户端"></a>1.1 安装Git客户端</h4><p>因为我们需要用git把hexo的内容提交到github上去，因此需要安装git。<br><code>下载git</code>：<a href="https://git-for-windows.github.io/" target="_blank" rel="noopener">下载地址</a>。<br><code>安装步骤</code>：双击exe文件，一直点击next即可。<br>安装好后，点击鼠标<code>右键</code>可以看到列表中新增了两个图标：<code>Git Bash here</code> 和 <code>Git GUI here</code>，我们之后要实用的就是<code>Git Bash here</code>。单击任意空白位置单击打开它，输入命令：<code>git version</code> 即可查看当前git 版本，如图所示版本号为<strong><em>2.16.2</em></strong>。同时，红色方框中是你打开bash的位置，我的是在桌面打开的，以后我们可以在新建的hexo工程文件夹中打开，操作hexo博客。<br><img src="/images/deployhexotogithub/gitversion.jpg" alt="hexo">  </p>
+<h4 id="1-2-安装Node-js"><a href="#1-2-安装Node-js" class="headerlink" title="1.2 安装Node.js"></a>1.2 安装Node.js</h4><p>Hexo是基于<code>nodeJS</code>环境的静态博客，所以需要先安装nodeJS环境，并且里面的<code>npm</code>工具我们在后面在会使用到。<br><code>下载Node.js</code>：<a href="https://nodejs.org/en/" target="_blank" rel="noopener">下载地址</a>    （ 说明：LTS为长期支持版，Current为当前最新版，推荐LTS）<br><code>安装步骤</code>：下载好msi文件后，打开安装，在<code>Custom Setup</code>这一步记得选<code>Add to PATH</code> ，这样你就不用自己去配置电脑上环境变量了。在<code>Git Bash</code> 或者<code>cmd</code>里面输入命令：<code>node -v</code>可查看版本。<br><img src="/images/deployhexotogithub/node-v.jpg" alt="node-v">  </p>
+<h4 id="1-3-安装hexo"><a href="#1-3-安装hexo" class="headerlink" title="1.3 安装hexo"></a>1.3 安装hexo</h4><p>这是本教程安装的最后一个软件环境，这也是我们真正想使用的。打开Git Bash，输入以下命令，即可安装:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure></p>
+<p>安装完成后，查看版本：<code>hexo -v</code><br><img src="/images/deployhexotogithub/hexo.jpg" alt="hexo"><br>安装好之后，在想要存放hexo博客的地方新建一个文件夹，点击右键，选择<code>Git Bash</code>，输入初始化命令：<code>hexo init</code>。会在当前文件夹得到一个hexo博客工程，初始化完成之后 可以看到以下文件：<br><img src="/images/deployhexotogithub/init.jpg" alt="init"><br>说明：  </p>
+<blockquote>
+<p>node_modules：是依赖包<br>public：存放的是生成的页面<br>scaffolds：命令生成文章等的模板<br>source：用命令创建的各种文章<br>themes：主题<br>_config.yml：整个博客的配置<br>db.json：source解析所得到的<br>package.json：项目所需模块项目的配置信息  </p>
+</blockquote>
+<p>这个时候继续在<code>该文件夹</code>输入命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
+<p>然后用浏览器访问<a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a>， 此时，你应该看到了一个漂亮的博客了，当然这个博客只是在本地的，别人是看不到的。更多的hexo操作参看hexo<code>中文文档</code>：<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/</a><br>到此为止，所有的软件环境安装完毕。  </p>
+<h3 id="2-github"><a href="#2-github" class="headerlink" title="2. github"></a>2. github</h3><h4 id="2-1-到github官网注册一个账号"><a href="#2-1-到github官网注册一个账号" class="headerlink" title="2.1 到github官网注册一个账号"></a>2.1 到github官网注册一个账号</h4><p><em>如果已经完成此步，可直接跳到 2.2节</em><br>由于我们的代码将托管到github上，所以首先需要注册一个github账号。访问<a href="https://github.com/" target="_blank" rel="noopener">Github官网</a>。  </p>
+<h4 id="2-2-创建远程仓库"><a href="#2-2-创建远程仓库" class="headerlink" title="2.2 创建远程仓库"></a>2.2 创建远程仓库</h4><p>点击下图所示地方，创建一个<code>repository</code>。<br><img src="/images/deployhexotogithub/repository.jpg" alt="repository">。<br>创建时， 只需要填写<code>Repository name</code>，注意仓库名一定要和你的<code>用户名</code>一样，并且格式为：<code>yourname</code>.<code>github</code>.<code>io</code>，比如我的是<a href="https://pengllrn.github.io" target="_blank" rel="noopener">pengllrn.github.io</a><br><img src="/images/deployhexotogithub/url.jpg" alt="Kiisa">  </p>
+<h4 id="2-3-配置git"><a href="#2-3-配置git" class="headerlink" title="2.3 配置git"></a>2.3 配置git</h4><p><em>如果已经完成此步，可直接跳到2.4节。</em><br>还记得之前创建GitHub账号的时候，输入的账号和邮箱吗？<br>在桌面右键打开Git Bash。输入以下命令配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">"yourname"</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/deployhexotogithub/name.jpg" alt="Kiisa"><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email <span class="string">"YourEmail"</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/deployhexotogithub/email.jpg" alt="Kiisa">  </p>
+<h4 id="2-4-获得SSH公钥"><a href="#2-4-获得SSH公钥" class="headerlink" title="2.4 获得SSH公钥"></a>2.4 获得SSH公钥</h4><p>接着在Git Bash中输入：<code>ssh-keygen -t rsa -C &quot;YourEmail&quot;</code>，生成<code>ssh</code>。然后按下图的方式找到<code>id_rsa.pub</code>文件的内容。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh  </span><br><span class="line">cat id_rsa.pub</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/deployhexotogithub/ssh.jpg" alt="Kiisa"><br>然后将红色区域复制下来（建议保存到一个txt文本中）。</p>
+<h4 id="2-5-到GitHub添加SSH"><a href="#2-5-到GitHub添加SSH" class="headerlink" title="2.5 到GitHub添加SSH"></a>2.5 到GitHub添加SSH</h4><p>登录到GitHub，点击设置：<br><img src="/images/deployhexotogithub/set.jpg" alt="Kiisa"><br><img src="/images/deployhexotogithub/set2.jpg" alt="Kiisa"><br>添加一个 <code>New SSH key</code> ，title随便取，key就填刚刚那一段。回到git bash中验证是否添加成功,输入命令：<code>ssh -T git@github.com</code><br>显示成功你就可以关掉它了，那么恭喜你完成了第二步。  </p>
+<h3 id="3-配置并部署项目"><a href="#3-配置并部署项目" class="headerlink" title="3. 配置并部署项目"></a>3. 配置并部署项目</h3><h4 id="3-1-配置hexo的deploy"><a href="#3-1-配置hexo的deploy" class="headerlink" title="3.1 配置hexo的deploy"></a>3.1 配置hexo的deploy</h4><p>进入存放hexo博客的文件夹，找到<code>_config.yml</code>文件，右键编辑它,文本最后，修改为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo:</span><br><span class="line">        github: https://github.com/yourGithubName/yourGithubName.github.io.git,</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
+<p>注意，每个冒号后面要有一个空格。</p>
+<h4 id="3-2-上传到github"><a href="#3-2-上传到github" class="headerlink" title="3.2 上传到github"></a>3.2 上传到github</h4><p>第一次上传需先安装插件： <code>npm install hexo-deployer-git --save</code>（应该在当前的博客文件夹的Git Bash 里运行这行命令，下面凡是执行hexo命令都到你的博客文件夹根目录，打开Git Bash）<br>然后依次执行命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo c  (或者 hexo clean)</span><br><span class="line">hexo g  (或者 hexo generate)</span><br><span class="line">hexo d  (或者 hexo deploy)</span><br></pre></td></tr></table></figure></p>
+<p>然后，在浏览器中输入<code>http://yourgithubname.github.io</code>就可以看到你的个人博客啦，是不是很兴奋！比如我输入：<a href="https://pengllrn.github.io" target="_blank" rel="noopener">pengllrn.github.io</a>。<br><img src="/images/deployhexotogithub/indexcover.jpg" alt="index">  </p>
+<h3 id="4-发表一篇文章"><a href="#4-发表一篇文章" class="headerlink" title="4.发表一篇文章"></a>4.发表一篇文章</h3><h4 id="4-1-在Git-Bash执行命令："><a href="#4-1-在Git-Bash执行命令：" class="headerlink" title="4.1 在Git Bash执行命令："></a>4.1 在Git Bash执行命令：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"my new post"</span></span><br></pre></td></tr></table></figure>
+<p>执行完之后，会提示你文章保存在了哪里，然后进去找到它并右键<code>编辑</code>。  </p>
+<h4 id="4-2-编辑文章"><a href="#4-2-编辑文章" class="headerlink" title="4.2 编辑文章"></a>4.2 编辑文章</h4><p>hexo中写文章使用的是<code>Markdown</code>，这里推荐使用<code>markdownpad</code>这个工具。 Markdown编写语法可参考博客<a href="https://www.cnblogs.com/Jimmy1988/p/7053875.html" target="_blank" rel="noopener">https://www.cnblogs.com/Jimmy1988/p/7053875.html</a>，不难,以下是一篇参考示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: test  <span class="comment">//标题，可以任意修改</span></span><br><span class="line">date: <span class="number">2018</span>-<span class="number">07</span>-<span class="number">19</span> <span class="number">11</span>:<span class="number">35</span>:<span class="number">46</span>  <span class="comment">//发表时间</span></span><br><span class="line">category: 杂谈  <span class="comment">//分类</span></span><br><span class="line">tags:  <span class="comment">//标签</span></span><br><span class="line">     测试</span><br><span class="line">---</span><br><span class="line"><span class="comment">//以下是正文部分，用markdown写</span></span><br><span class="line">## 第一章  </span><br><span class="line">&gt; yinyong  </span><br><span class="line">&gt; 继续  </span><br><span class="line"></span><br><span class="line">## 代码块</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> main&#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意：正文部分除了支持<code>markdown</code>语法，还支持<code>html</code>的<code>css</code>样式。更多hexo详细信息参考：<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">Hexo|文档</a>  </p>
+<h4 id="4-3-上传"><a href="#4-3-上传" class="headerlink" title="4.3 上传"></a>4.3 上传</h4><p>写完文章后，你可以使用</p>
+<blockquote>
+<p>1.hexo g  (或者 hexo generate) 生成静态文件<br>2.hexo s 在本地预览效果<br>3.hexo d  (或者 hexo deploy) 部署上传  </p>
+</blockquote>
+<h3 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h3><p>到此为止，博客就已将建立好了，后续就是写文章部署和发表。当然到目前为止，博客只能算是很简陋的，后续可以再进行：  </p>
+<blockquote>
+<p>1.更换主题<br>2.添加评论<br>3.添加统计</p>
+</blockquote>
+<p>最后，目前已经把博客部署到了github上，但是由于GitHub的服务器不在中国，所以网速可能有一点慢。那么，下一篇将介绍如何把hexo博客部署到coding上。  </p>
+<h3 id="本文参考："><a href="#本文参考：" class="headerlink" title="本文参考："></a>本文参考：</h3><blockquote>
+<ul>
+<li><a href="http://visugar.com/2017/05/04/20170504SetUpHexoBlog/" target="_blank" rel="noopener">hexo从零开始到搭建完整</a>  </li>
+<li><a href="http://tengj.top/2016/02/22/hexo1/" target="_blank" rel="noopener">hexo干货系列：（一）hexo+gitHub搭建个人独立博客</a></li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-软件环境"><span class="toc-text">1.软件环境</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-安装Git客户端"><span class="toc-text">1.1 安装Git客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-安装Node-js"><span class="toc-text">1.2 安装Node.js</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-安装hexo"><span class="toc-text">1.3 安装hexo</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-github"><span class="toc-text">2. github</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-到github官网注册一个账号"><span class="toc-text">2.1 到github官网注册一个账号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-创建远程仓库"><span class="toc-text">2.2 创建远程仓库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-配置git"><span class="toc-text">2.3 配置git</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-获得SSH公钥"><span class="toc-text">2.4 获得SSH公钥</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-到GitHub添加SSH"><span class="toc-text">2.5 到GitHub添加SSH</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-配置并部署项目"><span class="toc-text">3. 配置并部署项目</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-配置hexo的deploy"><span class="toc-text">3.1 配置hexo的deploy</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-上传到github"><span class="toc-text">3.2 上传到github</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-发表一篇文章"><span class="toc-text">4.发表一篇文章</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-在Git-Bash执行命令："><span class="toc-text">4.1 在Git Bash执行命令：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-编辑文章"><span class="toc-text">4.2 编辑文章</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-上传"><span class="toc-text">4.3 上传</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-总结"><span class="toc-text">5.总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本文参考："><span class="toc-text">本文参考：</span></a></li></ol></li></ol>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: Pengllrn</div>
+      
+        <div>
+          原文链接: 
+          <a href target="_blank">https://www.pengllrn.xyz/passages/2018-07-19-deployhexotogithub/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/hexo/"><i class="fa fa-tags"></i>hexo</a>
+     
+      <a href="/tags/github/"><i class="fa fa-tags"></i>github</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+      <div class="site-comment-contanier">
+  <p id="site-comment-info">
+    <i class="fa fa-spinner fa-spin"></i> 评论加载中
+  </p>
+  <div id="site-comment">
+  </div>
+</div>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">博客推荐</h5>
+        
+          <span class="site-footer-item">
+            <a href="http://www.pengzhihui.xyz/" target="_blank">稚晖</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="https://vkwk.space/" target="_blank">VikingWarlock</a>
+          </span>
+        
+      </div>
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">系列教程</h5>
+        
+          <span class="site-footer-item">
+            <a href="https://godbmw.com/categories/webpack4%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B/" target="_blank">webpack4系列教程</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="https://godbmw.com/design-patterns/" target="_blank">设计模式手册</a>
+          </span>
+        
+      </div>
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">抓到我</h5>
+        
+          <span class="site-footer-item">
+            <a href="https://juejin.im/user/5b91fcf06fb9a05d3c7fd4a5" target="_blank">掘金</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="https://segmentfault.com/" target="_blank">思否</a>
+          </span>
+        
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+      <div class="site-footer-info">
+        <i class="fa fa-paw"></i> 您是本站第 <span id="site-count"></span> 位访客
+      </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> Email: pengliangc@qq.com
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+        
+          <div>
+            <img src="/images/wechat.png" alt="WeChat">
+            
+              <p>WeChat</p>
+            
+          </div>
+        
+          <div>
+            <img src="/images/alipay.png" alt="AliPay">
+            
+              <p>AliPay</p>
+            
+          </div>
+        
+      </div>
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/passages/2018-07-23-hexotocoding/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="javascript:void(0);" data-enable="false">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+      <a href="#site-comment" data-enable="true">
+        <i class="fa fa-commenting"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    <a href="javascript:void(0);" id="site-reward">
+      <i class="fa fa-thumbs-up"></i>
+    </a>
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>
