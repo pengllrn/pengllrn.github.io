@@ -208,8 +208,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![node-v](/images/deployhexotogithub/node-v.jpg)</span><br></pre></td></tr></table></figure>
 <p>这种方式随着博文越写越多，讲变得十分的臃肿。</p>
 </li>
-<li><p>使用markdown Pad2 这款markdown自带的图片上传工具，如图所示：<img src="E:\workshop\Blog\source\_posts\jc-quickly-start-a-blog.assets\1552368827967.png" alt="1552368827967"></p>
-<p><img src="E:\workshop\Blog\source\_posts\jc-quickly-start-a-blog.assets\1552368764957.png" alt="1552368764957"></p>
+<li><p>使用markdown Pad2 这款markdown自带的图片上传工具，如图所示：<br><img src="http://qiniu.pengllrn.xyz/blog/20190312/Vch0YS7zQwcl.png" alt="1552368827967"><br><img src="http://qiniu.pengllrn.xyz/blog/20190312/utKTFsotgozF.png" alt="1552368827967"></p>
 </li>
 </ol>
 <p>点击上传之后，会将选择的图片上传到imgur.com服务器，然后点击OK会给您这种图片的markdown访问链接。经过亲测，这样上传的图片访问速度还比较快，但保存时间不知道有没有期限，不过我保存了半年照样还能访问。</p>
@@ -222,10 +221,10 @@
 <p>注册完之后需要新建一个仓库来存放博客的静态文件，仓库名需要与您的GitHub或者Coding账号名字一致。</p>
 <h4 id="获得SSH公钥"><a href="#获得SSH公钥" class="headerlink" title="获得SSH公钥"></a>获得SSH公钥</h4><p>接着在Git Bash中输入：<code>ssh-keygen -t rsa -C &quot;YourEmai</code>，生成ssh。然后按下图的方式找到<code>id_rsa.pub</code>文件的内容。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh</span><br><span class="line">cat id_rsa.pub</span><br></pre></td></tr></table></figure>
-<p><img src="E:\workshop\Blog\source\_posts\jc-quickly-start-a-blog.assets\1552370254726.png" alt="1552370254726"></p>
+<p><img src="http://qiniu.pengllrn.xyz/blog/20190312/z7aYOluqFGrr.png" alt="1552370254726"></p>
 <p>将红色区域复制下来（建议保存到一个txt文本中）。</p>
 <p>然后在GitHub网站中把这个公钥添加进去，这样本地电脑连接github进行上传的时候，就不用输入密码了。点击Setting，找到：</p>
-<p><img src="E:\workshop\Blog\source\_posts\jc-quickly-start-a-blog.assets\1552370434647.png" alt="1552370434647"></p>
+<p><img src="http://qiniu.pengllrn.xyz/blog/20190312/05bEz8BpY69q.png" alt="1552370434647"></p>
 <h4 id="配置hexo的deploy"><a href="#配置hexo的deploy" class="headerlink" title="配置hexo的deploy"></a>配置hexo的deploy</h4><p>  进入存放hexo博客的文件夹，找到_config.yml文件，在最后配置deploy值：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: </span><br><span class="line">       pengllrn.xyz: root@47.106.179.33:/root/gitrepo/blog.git,</span><br><span class="line">       coding: https://git.coding.net/pengllrn/pengllrn.git,</span><br><span class="line">       github: https://github.com/pengllrn/pengllrn.github.io.git,</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
 <p>这里我配置了三个，分别是个人服务器，coding以及github。分支都选择的是master。</p>
@@ -376,7 +375,7 @@
 
 <div class="bottom-bar">
   <div class="bottom-bar-left">
-    <a href="javascript:void(0);" data-enable="false">
+    <a href="/passages/2019-03-13-JVM/" data-enable="true">
       <i class="fa fa-arrow-left"></i>
     </a>
     <a href="/passages/2019-03-12-jcxz/" data-enable="true">
