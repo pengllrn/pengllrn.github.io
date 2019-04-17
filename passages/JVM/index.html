@@ -26,13 +26,15 @@
   
 
   
+    <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+  
 
   <script>
   // theme-ad's config script
   // it can be used in every script
   
   window.AD_CONFIG = {
-    leancloud: {"appid":"72QzKzRXQJS5pyVmQxjqVRDl-gzGzoHsz","appkey":"3R3u0daQ2Ia9xPKk3W7T3EPt","comment":false,"count":false},
+    leancloud: {"appid":"72QzKzRXQJS5pyVmQxjqVRDl-gzGzoHsz","appkey":"3R3u0daQ2Ia9xPKk3W7T3EPt","comment":true,"count":false},
     welcome: {"enable":true,"interval":30},
     start_time: "2019-01-1",
     passwords: ["d42025bc1f16d54fc22850383c76bcd51aad709747fe86c0cf4e7e60e9f02639", ],
@@ -181,14 +183,14 @@
 </blockquote>
 <ul>
 <li><p>平台无关性：一次编译，到处运行</p>
-<p><a href="https://www.pengllrn.xyz/passages/platformless/">探索Java平台的无关性</a></p>
+<p><a href="https://www.pengllrn.xyz/passages/platformless/" target="_blank" rel="noopener">探索Java平台的无关性</a></p>
 </li>
 <li><p>GC：垃圾回收机制</p>
 </li>
 </ul>
 <ul>
 <li><p>语言特性：泛型，发射，lambda表达式</p>
-<p><a href="https://www.pengllrn.xyz/passages/reflaction/">Java的反射</a></p>
+<p><a href="https://www.pengllrn.xyz/passages/reflaction/" target="_blank" rel="noopener">Java的反射</a></p>
 </li>
 <li><p>面向对象：封装，继承，多态</p>
 </li>
@@ -215,7 +217,7 @@
       
         <div>
           原文链接: 
-          <a href target="_blank">https://www.pengllrn.xyz/passages/JVM/</a>
+          <a href target="_blank">https://www.pengllrn.top/passages/JVM/</a>
         </div>
       
       <div>
@@ -235,6 +237,14 @@
 </div>
 
     </main>
+    
+      <div class="site-comment-contanier">
+  <p id="site-comment-info">
+    <i class="fa fa-spinner fa-spin"></i> 评论加载中
+  </p>
+  <div id="site-comment">
+  </div>
+</div>
     
     <div class="site-footer-wrapper">
   <footer class="site-footer">
@@ -342,6 +352,10 @@
     <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
       <i class="fa fa-bars"></i>
     </a>
+    
+      <a href="#site-comment" data-enable="true">
+        <i class="fa fa-commenting"></i>
+      </a>
     
     <a href="javascript:void(0);" id="site-toggle-share-btn">
       <i class="fa fa-share-alt"></i>
