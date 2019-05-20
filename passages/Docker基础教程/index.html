@@ -233,7 +233,7 @@
 <li>Control groups（cgroups）控制组</li>
 </ul>
 <h5 id="NameSpaces-命名空间"><a href="#NameSpaces-命名空间" class="headerlink" title="NameSpaces 命名空间"></a>NameSpaces 命名空间</h5><blockquote>
-<p> 编程语言：封装–&gt;代码隔离</p>
+<p>编程语言：封装–&gt;代码隔离</p>
 <p>操作系统：系统资源的隔离–&gt;进程、网络、文件系统….</p>
 </blockquote>
 <ul>
@@ -355,7 +355,7 @@
 <li>查看端口映射</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker port 容器名</span><br><span class="line">docker port web</span><br></pre></td></tr></table></figure>
-<p><img src="qiniu.pengllrn.top/img/1558102597022.png" alt="hhh"></p>
+<p><img src="http://qiniu.pengllrn.top/img/1558102597022.png" alt></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl http://127.0.0.1:43167  <span class="comment">#在宿主机中访问43167端口，相当于访问容器的9090端口，又因为容器的9090端口被nginx监听，所以能够被nginx代理（在宿主机中执行）</span></span><br><span class="line">或者使用容器的ip地址访问</span><br><span class="line">curl http://172.17.0.32:9090  <span class="comment">#如果这里是80端口，就不需要指定端口了（还是在宿主机中执行）</span></span><br></pre></td></tr></table></figure>
 <p>如果在容器中安装了nginx，并且启动了nginx，如果把容器stop，重新启动容器后nginx没有启动。这是可以使用exec命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> web nginx</span><br></pre></td></tr></table></figure>
@@ -367,8 +367,7 @@
 <p>-f, –filter=[]  显示时的过滤条件</p>
 <p>–no-trunc=false  指定不使用截断的形式显示数据，默认会阶段镜像的ID的（短ID）。</p>
 <p>-q,–quiet=false  只显示镜像的唯一id</p>
-<p><img src="qiniu.pengllrn.top/img/1558103757252.png" alt></p>
-<p><img src="D:\GitPro\TmpeImage\Docker基础教程\1558103757252.png" alt="1558103757252"></p>
+<p><img src="http://qiniu.pengllrn.top/img/1558103757252.png" alt></p>
 <p>总共有5列：</p>
 <p>REPOSITORY：所属仓库名，存储的是一个个镜像</p>
 <p>TAG：镜像的标签名，默认是latest。REPOSITORY+TAG名构成一个完整的镜像名，ubuntu:latest.</p>
@@ -411,8 +410,7 @@
 <li>推送镜像</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker login <span class="comment">#本地Linux登录docker</span></span><br><span class="line">docker push NAME[:TAG]</span><br><span class="line">docker push pengllrn/commit_web_nginx </span><br><span class="line">docker push pengllrn/commit_web_nginx:tagname</span><br></pre></td></tr></table></figure>
-<p><img src="D:\GitPro\TmpeImage\Docker基础教程\1558110054550.png" alt="1558110054550"></p>
-<p><img src="qiniu.pengllrn.top/img/1558110054550.png" alt></p>
+<p><img src="http://qiniu.pengllrn.top/img/1558110054550.png" alt></p>
 <p>注意，docker在push的时候并不会提交所有的镜像，而指挥提交修改的部分。</p>
 <p>推送Docker Hub速度很慢，耐心等待，很有可能失败，失败会尝试多次重传，之后断开推送（但已推送上去的会保留，保留时间不知道是多久）。</p>
 <h3 id="在本地构建镜像"><a href="#在本地构建镜像" class="headerlink" title="在本地构建镜像"></a>在本地构建镜像</h3><p>保存对容器的修改，并再次使用</p>
@@ -425,13 +423,11 @@
 <p>-m,–message=”” commit信息 ，镜像构建的信息</p>
 <p>-p,–pause=true  由于commit命令会将正在执行的容器暂停，-p用来知识commit命令不暂停正在执行的容器。</p>
 <p>执行完之后，再使用docker images即可查看到刚才上传的容器：</p>
-<p><img src="qiniu.pengllrn.top/img/1558107772816.png" alt></p>
-<p><img src="D:\GitPro\TmpeImage\Docker基础教程\1558107772816.png" alt="1558107772816"></p>
+<p><img src="http://qiniu.pengllrn.top/img/1558107772816.png" alt></p>
 <p>然后启动它：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name nginx_web pengllrn/commit_web_nginx nginx -g <span class="string">"daemon off;"</span></span><br></pre></td></tr></table></figure>
 <p>这里以守护进程的方式启动，并在启动后立刻执行启动nginx。然后检查这个容器的ip，然后通过curl命令（curl <a href="http://172.17.0.2:9090）去访问，结果和提交的web容器一样。" target="_blank" rel="noopener">http://172.17.0.2:9090）去访问，结果和提交的web容器一样。</a></p>
-<p><img src="qiniu.pengllrn.top/img/1558107935567.png" alt></p>
-<p><img src="D:\GitPro\TmpeImage\Docker基础教程\1558107935567.png" alt="1558107935567"></p>
+<p><img src="http://qiniu.pengllrn.top/img/1558107935567.png" alt></p>
 <p>方式二：通过Dockerfile文件构建</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build <span class="comment">#通过Dockerfile文件构建</span></span><br></pre></td></tr></table></figure>
 <p>2.1）创建一个dockerfile</p>
@@ -445,8 +441,7 @@
 <p>-q,–quiet=false</p>
 <p>–rm=true</p>
 <p>-t,–tag=””  用于指定构建出的容器的名字</p>
-<p><img src="qiniu.pengllrn.top/img/1558108895045.png" alt></p>
-<p><img src="D:\GitPro\TmpeImage\Docker基础教程\1558108895045.png" alt="1558108895045"></p>
+<p><img src="http://qiniu.pengllrn.top/img/1558108895045.png" alt></p>
 <p>最终将会出现一个新的镜像：pengllrn/web_test</p>
 <h2 id="Dockerfile指令"><a href="#Dockerfile指令" class="headerlink" title="Dockerfile指令"></a>Dockerfile指令</h2><h3 id="指令格式"><a href="#指令格式" class="headerlink" title="指令格式"></a>指令格式</h3><p>注释：以”#“开头</p>
 <p>指令：以大写的字母开头，后面是参数：INSTRUCTION argument</p>
