@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+  
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="author" content="Pengllrn">
+  
+  
+  <title>Docker容器的网络连接 | 小彭的个人博客</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Docker,Docker,">
+  
+
+  
+  <meta name="description" content="Docker 笔记，网络容器。。。">
+
+  
+
+  <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.11.1/dist/av-min.js" async></script>
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+    <script src="//unpkg.com/valine/dist/Valine.min.js" async></script>
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"72QzKzRXQJS5pyVmQxjqVRDl-gzGzoHsz","appkey":"3R3u0daQ2Ia9xPKk3W7T3EPt","comment":true,"count":false},
+    welcome: {"enable":true,"interval":30},
+    start_time: "2019-01-1",
+    passwords: ["d42025bc1f16d54fc22850383c76bcd51aad709747fe86c0cf4e7e60e9f02639", ],
+    is_post: true,
+    lock: false,
+    author: "Pengllrn",
+    share: {"twitter":false,"facebook":false,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  <script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+  
+</head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">PENGLLRN</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 有时低头看路，有时仰望星空</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/pengllrn/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-05-26
+    </span>
+    
+      <span>
+        | <a href="/categories/Docker/"><i class="fa fa-bookmark"></i>Docker</a>
+      </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    Docker容器的网络连接
+  </h1>
+  
+  <article class="passage-article">
+    <h2 id="Docker容器的网络连接"><a href="#Docker容器的网络连接" class="headerlink" title="Docker容器的网络连接"></a>Docker容器的网络连接</h2><h3 id="一、Docker容器的网络基础"><a href="#一、Docker容器的网络基础" class="headerlink" title="一、Docker容器的网络基础"></a>一、Docker容器的网络基础</h3><p>首先使用<code>ifconfig</code>命令来查看宿主机的网络配置，结果如下：</p>
+<p><img src="http://qiniu.pengllrn.top/img/1558364810012.png" alt></p>
+<p>在系统中有一个名为<code>docker0</code>的网络设备，docker的守护进程就是通过docker0为docker的容器提供网络连接的各种服务。docker0实际上就是Linux的<strong>虚拟网桥</strong>。<strong>网桥</strong>是<strong>数据链路层</strong>的一种设备，它用来通过Mac地址也就是网络设备的物理地址来对网络进行划分，以及在不同的网络之间传递数据(协议转换)。Linux的虚拟网桥相比于普通的网桥有如下的特点：</p>
+<ul>
+<li>可以设置IP地址——docker0就有一个ip地址</li>
+</ul>
+<p>Linux的虚拟网桥是通用网络设备的一种，当虚拟网桥拥有ip之后，linux便可通过路由表或者ip表规则在网络层定位网桥，这就相当于拥有一个隐藏的虚拟网卡，这个网卡的名字就是<code>docker0</code>。</p>
+<p>默认docker0的网络地址划分为：</p>
+<ul>
+<li>IP:172.17.0.1 子网掩码：255.255.0.0</li>
+<li>MAC：02:42:22:0b:00:00 到 02:42:22:0b:ff:ff</li>
+<li>总共提供了65534个地址</li>
+</ul>
+<p>docker根据<code>ip范围</code>为每一个<code>容器</code>提供相应的<code>mac地址</code>，从而避免mac地址冲突。docker守护进程在一个容器启动时还要创建创建网络连接的两端，一端是在容器中的网络设备，而另一端是在运行docker守护进程的主机上。打开一个名为<code>veth*</code>的接口，用来实现<code>docker0</code>这个网桥与容器的网络通信</p>
+<p><img src="http://qiniu.pengllrn.top/img/20190525141823.png" alt></p>
+<h4 id="1-查看网桥设备"><a href="#1-查看网桥设备" class="headerlink" title="1.查看网桥设备"></a>1.查看网桥设备</h4><p>安装网桥管理程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get insatll bridge-utils  <span class="comment">#在ubuntu中</span></span><br><span class="line">sudo yum install bridge-utils  <span class="comment">#centos 7</span></span><br></pre></td></tr></table></figure>
+<p>查看网桥设备：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo brctl show</span><br></pre></td></tr></table></figure>
+<p>结果如下，有一个docker0 的网桥设备。<img src="http://qiniu.pengllrn.top/img/20190525144125.png" alt></p>
+<h4 id="2-运行一个容器查看网络设备情况"><a href="#2-运行一个容器查看网络设备情况" class="headerlink" title="2.运行一个容器查看网络设备情况"></a>2.运行一个容器查看网络设备情况</h4><p>随便运行一个docker容器，然后查看这个容器的网络情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker start -i web <span class="comment">#重新启动一个容器</span></span><br><span class="line">apt-get install net-tools <span class="comment">#在容器中安装网络工具，不然无法使用ifconfig</span></span><br><span class="line">ifconfig <span class="comment">#查看容器的网络设备</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.pengllrn.top/img/20190525145133.png" alt></p>
+<p>可以看到容器的ip地址为<code>172.17.0.2</code>，mac地址为：<code>02:42:ac:11:00:02</code></p>
+<p>以守护进程的方式运行成容器，然后在host中查看网桥的状态：</p>
+<p><img src="http://qiniu.pengllrn.top/img/20190525145534.png" alt></p>
+<p>可以看到interfaces中多了一个接口，这就是docker在容器创建时为容器连接docker0所创建的一个网络接口，同样使用ifconfig也能查看到这个网络接口：</p>
+<p><img src="http://qiniu.pengllrn.top/img/20190525145824.png" alt></p>
+<h4 id="3-自定义docker0，修改docker0默认ip地址"><a href="#3-自定义docker0，修改docker0默认ip地址" class="headerlink" title="3.自定义docker0，修改docker0默认ip地址"></a>3.自定义docker0，修改docker0默认ip地址</h4><p>使用linux自带的ifconfig命令来修改docker0：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig docker0 192.168.200.1 netmask 255.255.255.0</span><br></pre></td></tr></table></figure>
+<p>再次查看网络设备信息，发现docker0的ip地址已经发生了变化：</p>
+<p><img src="http://qiniu.pengllrn.top/img/1558767935733.png" alt></p>
+<p>注意不能直接在容器中修改ip地址，会报没有权限错误：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@4acef7f0c1a9:/<span class="comment"># ifconfig docker0 192.168.200.2 netmask 255.255.255.0</span></span><br><span class="line">SIOCSIFADDR: Operation not permitted</span><br><span class="line">docker0: ERROR <span class="keyword">while</span> getting interface flags: No such device</span><br><span class="line">SIOCSIFNETMASK: Operation not permitted</span><br></pre></td></tr></table></figure>
+<p>然后重新启动docker以及重新运行一个容器，查看它们的ip地址。</p>
+<h4 id="4-自定义虚拟网桥"><a href="#4-自定义虚拟网桥" class="headerlink" title="4.自定义虚拟网桥"></a>4.自定义虚拟网桥</h4><p>也可以自定义虚拟网桥，配置号ip地址和子网掩码，然后让docker使用这个网桥：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo brctl addbr br0  <span class="comment">#新建网桥br0</span></span><br><span class="line">sudo ifconfig br0 192.168.100.1 netmask 255.255.255.0<span class="comment">#配置网桥的ip地址和子网掩码</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.pengllrn.top/img/20190525160237.png" alt></p>
+<p>然后更改docker守护进程的启动配置：</p>
+<p>在/etc/default/docker 中添加DOCKER_OPS值 -b=br0</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/docker <span class="comment">#在ubuntu中，在/etc/default目录下新建docker文件，添加DOCKER_OPS=“ -b=br0”</span></span><br><span class="line">vim /etc/docker/daemon.json <span class="comment">#在centos中</span></span><br></pre></td></tr></table></figure>
+<p>在centos中编辑/etc/docker/daemon.json为：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"bridge"</span>:<span class="string">"br0"</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后重新加载守护进程以及重启docker服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload <span class="comment">#重启守护进程</span></span><br><span class="line">systemctl restart docker <span class="comment">#重启docker</span></span><br></pre></td></tr></table></figure>
+<p>然后新建或重新运行一个docker容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker start web</span><br><span class="line">docker attach web</span><br><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+<p><img src="http://qiniu.pengllrn.top/img/1558773662286.png" alt></p>
+<p>此时容器的ip已经变成了br0网桥设置的ip段了。</p>
+<p>更多关于docker守护进程的配置和操作查看：<a href="https://blog.csdn.net/fullstackdeveloper0/article/details/87976594" target="_blank" rel="noopener">Docker守护进程的配置和操作</a></p>
+<h3 id="二、Docker容器的互联"><a href="#二、Docker容器的互联" class="headerlink" title="二、Docker容器的互联"></a>二、Docker容器的互联</h3><h4 id="1-docker在默认情况下运行所有容器互联"><a href="#1-docker在默认情况下运行所有容器互联" class="headerlink" title="1.docker在默认情况下运行所有容器互联"></a>1.docker在默认情况下运行所有容器互联</h4><p>新建Dockerfile：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Dockerfile for network test</span></span><br><span class="line">FROM ubuntu:latest</span><br><span class="line">RUN apt-get update</span><br><span class="line">RUN apt-get -y upgrade</span><br><span class="line">RUN apt-get install net-tools <span class="comment">#安装ifconfig</span></span><br><span class="line">RUN apt-get install -y inetutils-ping <span class="comment">#安装ping命令</span></span><br><span class="line">RUN apt-get install -y nginx</span><br><span class="line">RUN apt-get install -y curl</span><br><span class="line">EXPOSE 80</span><br><span class="line">CMD /bin/bash</span><br></pre></td></tr></table></figure>
+<p>build:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build -t df/web .</span><br><span class="line">docker iamges</span><br><span class="line">docker run --name=web1 -it df/cnt /bin/bash</span><br></pre></td></tr></table></figure>
+<p>之后安装net-utils查看ip</p>
+<p><code>apt insatll net-tools</code></p>
+<p>这个容器的ip为192.168.100.3</p>
+<p>现在docker中运行了两个容器：</p>
+<table>
+<thead>
+<tr>
+<th>container</th>
+<th>ip</th>
+<th>images</th>
+<th>intsall</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>web</td>
+<td>192.168.100.2</td>
+<td>ubuntu:latest</td>
+<td>nginx,ping,ifconfig</td>
+</tr>
+<tr>
+<td>web1</td>
+<td>192.168.100.3</td>
+<td>df/cnt:latest</td>
+<td>nginx,ping,ifconfig,curl</td>
+</tr>
+</tbody>
+</table>
+<p>docker默认允许容器互相连接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">▶ docker attach web1</span><br><span class="line">root@3488bca33165:/<span class="comment"># ping 192.168.100.2</span></span><br><span class="line">PING 192.168.100.2 (192.168.100.2): 56 data bytes</span><br><span class="line">64 bytes from 192.168.100.2: icmp_seq=0 ttl=64 time=0.110 ms</span><br><span class="line">64 bytes from 192.168.100.2: icmp_seq=1 ttl=64 time=0.077 ms</span><br><span class="line">64 bytes from 192.168.100.2: icmp_seq=2 ttl=64 time=0.073 ms</span><br><span class="line">64 bytes from 192.168.100.2: icmp_seq=3 ttl=64 time=0.074 ms</span><br></pre></td></tr></table></figure>
+<p>可以发现在web1容器中ping web容器，正常ping通，同样在web1中ping web1也是正常ping通。然后分别打开两个容器的nginx，在web1容器中使用curl命令访问web容器，结果如下：</p>
+<p><img src="http://qiniu.pengllrn.top/img/20190525195230.png" alt></p>
+<p>这里使用的是ip进行访问，但是容器停止或者重启之后，ip地址可能发生变化，所以如果写死了ip，则很容易出问题，docker提供了另一种方式来获得容器的ip地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --link=[CONTAINER_NAME]:[ALIAS] [IMAGE] [COMMOND]</span><br><span class="line">docker run -it --name web2 --link=web df/cnt <span class="comment">#web2容器和web容器绑定</span></span><br></pre></td></tr></table></figure>
+<p>这里新建了一个web2容器，并让web2容器和web容器绑定，接着在web2中<code>ping web</code>容器，可以顺利地ping通。</p>
+<p>查看web2的/etc/hosts文件,可以发现web2有到web ip地址的映射，并且这个映射永远是准确的，docker会自动修改ip地址和别名对应。</p>
+<p><img src="http://qiniu.pengllrn.top/img/20190525213645.png" alt></p>
+<h4 id="2-拒接容器间的互联"><a href="#2-拒接容器间的互联" class="headerlink" title="2.拒接容器间的互联"></a>2.拒接容器间的互联</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/docker/daemon.json</span><br></pre></td></tr></table></figure>
+<p>添加：<code>&quot;icc&quot;:false</code></p>
+<p>然后重新允许容器web,web1,web2，发现都不能ping通了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@ef62e24881b3:/<span class="comment"># ping 192.168.100.2</span></span><br><span class="line">PING 192.168.100.2 (192.168.100.2): 56 data bytes</span><br><span class="line">192.168.100.2 ping statistics ---</span><br><span class="line">4 packets transmitted, 0 packets received, 100% packet loss</span><br></pre></td></tr></table></figure>
+<h4 id="3-运行特定容器间的互联"><a href="#3-运行特定容器间的互联" class="headerlink" title="3.运行特定容器间的互联"></a>3.运行特定容器间的互联</h4><ul>
+<li>–icc设置为false</li>
+<li>–iptables设置为true</li>
+<li>设置–link</li>
+</ul>
+<p>在centos中：<code>vim /etc/docker/daemon.json</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"icc"</span>:<span class="literal">false</span>,</span><br><span class="line">    <span class="string">"iptables"</span>:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在ubuntu中：</p>
+<p><code>vim /etc/default/docker</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DOCKER_OPTS=<span class="string">"--icc=false  --iptables=true"</span></span><br></pre></td></tr></table></figure>
+<p>重启docker，重启容器</p>
+<p><code>docker run -it --name web2 --link=web:别名 df/cnt #web2容器和web容器绑定</code></p>
+<h3 id="三、Docker容器与外部网络的连接"><a href="#三、Docker容器与外部网络的连接" class="headerlink" title="三、Docker容器与外部网络的连接"></a>三、Docker容器与外部网络的连接</h3><h4 id="1-ip-forward"><a href="#1-ip-forward" class="headerlink" title="1.ip_forward"></a>1.ip_forward</h4><p><a href="https://www.jianshu.com/p/134eeae69281" target="_blank" rel="noopener">Linux ip_forward 数据包转发</a></p>
+<p>出于安全考虑，Linux系统默认是禁止数据包转发的。所谓转发即当主机拥有多于一块的网卡时，其中一块收到数据包，根据数据包的目的ip地址将数据包发往本机另一块网卡，该网卡根据路由表继续发送数据包。这通常是路由器所要实现的功能。</p>
+<p>要让Linux系统具有路由转发功能，需要配置一个Linux的内核参数<code>net.ipv4.ip_forward</code>。这个参数指定了Linux系统当前对路由转发功能的支持情况；其值为0时表示禁止进行IP转发；如果是1,则说明IP转发功能已经打开。</p>
+<ul>
+<li>临时生效的配置方式</li>
+</ul>
+<p>临时生效的配置在主机重启或者主机网络重启之后失效，适合用于测试。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w net.ipv4.ip_forward=1</span><br><span class="line">或者</span><br><span class="line"><span class="built_in">echo</span> 1 &gt; /proc/sys/net/ipv4/ip_forward</span><br></pre></td></tr></table></figure>
+<p>配置完之后，输入<code>sysctl net.ipv4.ip_forward</code>查看，结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward = 1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>永久生效的配置方式</li>
+</ul>
+<p>修改/etc/sysctl.conf 配置文件，在sysctl.conf配置文件中有一项名为<code>net.ipv4.ip_forward</code>的配置项，将其值设为1。修改sysctl.conf文件后需要执行指令<code>sysctl -p</code> 后新的配置才会生效。</p>
+<p>或者：</p>
+<p>修改/etc/sysconfig/network配置文件，在文件最后添加一行：<code>FORWARD_IPV4=YES</code>，修改配置文件后需要重启网络服务(<code>service netwrok restart</code>)才能使新的配置生效。</p>
+<p>配置完之后输入命令<code>sysctl net.ipv4.conf.all.forwarding</code>查看当前的配置，输出结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.conf.all.forwarding = 1</span><br></pre></td></tr></table></figure>
+<h4 id="2-iptables"><a href="#2-iptables" class="headerlink" title="2.iptables"></a>2.iptables</h4><p>Iptables是与linux内核集成的包过滤防火墙，几乎所有的linux发行版本都会包含Iptables的功能。</p>
+<p><img src="http://qiniu.pengllrn.top/img/20190526093709.png" alt></p>
+<ul>
+<li><p>表(table)</p>
+</li>
+<li><p>链（chain）</p>
+</li>
+<li><p>规则（rule）</p>
+<p>ACCEPT REJECT DROP</p>
+</li>
+</ul>
+<p>当主机收到一个数据包后，数据包先在内核空间中处理，若发现目的地址是自身，则传到用户空间中交给对应的应用程序处理，若发现目的不是自身，则会将包丢弃或进行转发。</p>
+<p>iptables实现防火墙功能的原理是：在数据包经过内核的过程中有五处关键地方，分别是<strong>PREROUTING、INPUT、OUTPUT、FORWARD、POSTROUTING</strong>，称为钩子函数，iptables这款用户空间的软件可以在这5处地方写规则，对经过的数据包进行处理，规则一般的定义为“如果数据包头符合这样的条件，就这样处理数据包”。</p>
+<p>iptables中定义有5条链，说白了就是上面说的5个钩子函数，因为每个钩子函数中可以定义多条规则，每当数据包到达一个钩子函数时，iptables就会从钩子函数中第一条规则开始检查，看该数据包是否满足规则所定义的条件。如果满足，系统就会根据该条规则所定义的方法处理该数据包；否则iptables将继续检查下一条规则，如果该数据包不符合钩子函数中任一条规则，iptables就会根据该函数预先定义的默认策略来处理数据包</p>
+<p>iptables中定义有表，分别表示提供的功能，有filter表（实现包过滤）、nat表（实现网络地址转换）、mangle表（实现包修改）、raw表（实现数据跟踪），这些表具有一定的优先级：<strong>raw–&gt;mangle–&gt;nat–&gt;filter</strong></p>
+<p><img src="http://qiniu.pengllrn.top/img/20190526093128.png" alt></p>
+<h4 id="3-允许端口映射访问"><a href="#3-允许端口映射访问" class="headerlink" title="3.允许端口映射访问"></a>3.允许端口映射访问</h4><h4 id="4-限制IP访问容器"><a href="#4-限制IP访问容器" class="headerlink" title="4.限制IP访问容器"></a>4.限制IP访问容器</h4><p>在iptables中禁用ip就行了</p>
+<h3 id="四、容器跨主机网络访问"><a href="#四、容器跨主机网络访问" class="headerlink" title="四、容器跨主机网络访问"></a>四、容器跨主机网络访问</h3><p>宿主主机可以对容器进行访问（端口映射），同一机器上的容器之间可以互相访问（同一网段），但是容器默认是无法访问主机的，因此别的主机上的容器也不能访问别的主机。因为相对于容器来说，主机是外网，可以使用主机的外网ip进行访问，但这相当于走了一次网络，并不是直接访问，没有享受到同一主机上进行网络访问的优点。</p>
+<h4 id="使用网桥实现跨主机连接"><a href="#使用网桥实现跨主机连接" class="headerlink" title="使用网桥实现跨主机连接"></a>使用网桥实现跨主机连接</h4><p>解决方案就是让docker容器和host主机ip在同一个网段，可以将它们都使用一个相同的网桥br0，默认是使用不同的网桥（docker0/br0,eth0）。</p>
+<p><img src="http://qiniu.pengllrn.top/img/20190526094700.png" alt></p>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker容器的网络连接"><span class="toc-text">Docker容器的网络连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、Docker容器的网络基础"><span class="toc-text">一、Docker容器的网络基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-查看网桥设备"><span class="toc-text">1.查看网桥设备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-运行一个容器查看网络设备情况"><span class="toc-text">2.运行一个容器查看网络设备情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-自定义docker0，修改docker0默认ip地址"><span class="toc-text">3.自定义docker0，修改docker0默认ip地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-自定义虚拟网桥"><span class="toc-text">4.自定义虚拟网桥</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、Docker容器的互联"><span class="toc-text">二、Docker容器的互联</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-docker在默认情况下运行所有容器互联"><span class="toc-text">1.docker在默认情况下运行所有容器互联</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-拒接容器间的互联"><span class="toc-text">2.拒接容器间的互联</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-运行特定容器间的互联"><span class="toc-text">3.运行特定容器间的互联</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、Docker容器与外部网络的连接"><span class="toc-text">三、Docker容器与外部网络的连接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-ip-forward"><span class="toc-text">1.ip_forward</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-iptables"><span class="toc-text">2.iptables</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-允许端口映射访问"><span class="toc-text">3.允许端口映射访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-限制IP访问容器"><span class="toc-text">4.限制IP访问容器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、容器跨主机网络访问"><span class="toc-text">四、容器跨主机网络访问</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用网桥实现跨主机连接"><span class="toc-text">使用网桥实现跨主机连接</span></a></li></ol></li></ol></li></ol>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: Pengllrn</div>
+      
+        <div>
+          原文链接: 
+          <a href target="_blank">https://www.pengllrn.top/passages/Docker笔记（二）/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/Docker/"><i class="fa fa-tags"></i>Docker</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+      <div class="site-comment-contanier">
+  <p id="site-comment-info">
+    <i class="fa fa-spinner fa-spin"></i> 评论加载中
+  </p>
+  <div id="site-comment">
+  </div>
+</div>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">博客推荐</h5>
+        
+          <span class="site-footer-item">
+            <a href="http://www.pengzhihui.xyz/" target="_blank">稚晖</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="https://vkwk.space/" target="_blank">VikingWarlock</a>
+          </span>
+        
+      </div>
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">系列教程</h5>
+        
+          <span class="site-footer-item">
+            <a href="https://godbmw.com/categories/webpack4%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B/" target="_blank">webpack4系列教程</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="https://godbmw.com/design-patterns/" target="_blank">设计模式手册</a>
+          </span>
+        
+      </div>
+    
+      <div class="site-footer-col">
+        <h5 class="site-footer-title">抓到我</h5>
+        
+          <span class="site-footer-item">
+            <a href="https://juejin.im/user/5b91fcf06fb9a05d3c7fd4a5" target="_blank">掘金</a>
+          </span>
+        
+          <span class="site-footer-item">
+            <a href="https://segmentfault.com/" target="_blank">思否</a>
+          </span>
+        
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+    
+      <div class="site-footer-info">
+        <i class="fa fa-at"></i> Email:pengllrn@foxmail.com
+      </div>
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2019 <a href="https://github.com/dongyuanxin/theme-ad/" target="_blank">Theme-AD</a>.
+      Created by <a href="https://godbmw.com/" target="_blank">GodBMW</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+        
+          <div>
+            <img src="/images/wechat.png" alt="WeChat">
+            
+              <p>WeChat</p>
+            
+          </div>
+        
+          <div>
+            <img src="/images/alipay.png" alt="AliPay">
+            
+              <p>AliPay</p>
+            
+          </div>
+        
+      </div>
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="javascript:void(0);" data-enable="false">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/passages/Docker笔记(一)/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+      <a href="#site-comment" data-enable="true">
+        <i class="fa fa-commenting"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    <a href="javascript:void(0);" id="site-reward">
+      <i class="fa fa-thumbs-up"></i>
+    </a>
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+  <script async>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+  </script>
+
+
+
+
+    
+  </body>
+</html>
